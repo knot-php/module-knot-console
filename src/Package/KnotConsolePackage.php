@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace KnotPhp\Module\KnotConsole\Package;
 
 use KnotLib\Kernel\Module\PackageInterface;
+use KnotPhp\Module\KnotConsole\KnotShellResponderModule;
 use KnotPhp\Module\KnotPipeline\KnotPipelineModule;
 use KnotPhp\Module\Stk2kEventStream\Stk2kEventStreamModule;
 use KnotPhp\Module\KnotConsole\KnotShellRequestModule;
@@ -23,6 +24,7 @@ class KnotConsolePackage implements PackageInterface
             Stk2kEventStreamModule::class,
             KnotShellRequestModule::class,
             KnotShellResponseModule::class,
+            KnotShellResponderModule::class,
         ];
     }
 }
