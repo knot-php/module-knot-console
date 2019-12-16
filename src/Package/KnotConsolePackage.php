@@ -5,10 +5,9 @@ namespace KnotPhp\Module\KnotConsole\Package;
 
 use KnotLib\Kernel\Module\PackageInterface;
 use KnotPhp\Module\KnotConsole\KnotShellResponderModule;
-use KnotPhp\Module\KnotPipeline\KnotPipelineModule;
-use KnotPhp\Module\Stk2kEventStream\Stk2kEventStreamModule;
 use KnotPhp\Module\KnotConsole\KnotShellRequestModule;
 use KnotPhp\Module\KnotConsole\KnotShellResponseModule;
+use KnotPhp\Module\KnotConsole\KnotShellRouterModule;
 
 class KnotConsolePackage implements PackageInterface
 {
@@ -20,11 +19,10 @@ class KnotConsolePackage implements PackageInterface
     public static function getModuleList() : array
     {
         return [
-            KnotPipelineModule::class,
-            Stk2kEventStreamModule::class,
             KnotShellRequestModule::class,
             KnotShellResponseModule::class,
             KnotShellResponderModule::class,
+            KnotShellRouterModule::class,
         ];
     }
 }
