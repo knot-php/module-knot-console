@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace KnotPhp\Module\KnotConsole;
 
 use Throwable;
-use Closure;
 
+use KnotLib\Kernel\FileSystem\Dir;
+use KnotLib\Kernel\FileSystem\FileSystemInterface;
 use KnotLib\Kernel\Kernel\ApplicationInterface;
 use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
@@ -17,8 +18,26 @@ use KnotLib\Console\Router\Builder\PhpArrayShellRouterBuilder;
 use KnotLib\Console\Router\ShellDispatcherInterface;
 use KnotLib\Console\Router\ShellRouter;
 
-abstract class KnotShellRouterModule extends ComponentModule
+use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigFileFormatException;
+use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigNotFoundException;
+
+final class KnotShellRouterModule extends ComponentModule
 {
+    const ROUTING_RULE_CONFIG_FILE = 'route.config.php';
+
+    /** @var ShellDispatcherInterface */
+    private $dispatcher;
+
+    /**
+     * KnotShellRouterModule constructor.
+     *
+     * @param ShellDispatcherInterface|null $dispatcher
+     */
+    public function __construct(ShellDispatcherInterface $dispatcher = null)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     /**
      * Declare dependent on components
      *
@@ -52,8 +71,8 @@ abstract class KnotShellRouterModule extends ComponentModule
     public function install(ApplicationInterface $app)
     {
         try{
-            $router = new ShellRouter($this->getDispatcher($app));
-            (new PhpArrayShellRouterBuilder($router, $this->getRoutingRule()))->build();
+            $router = new ShellRouter($this->dispatcher);
+            (new PhpArrayShellRouterBuilder($router, $this->getRoutingRule($app->filesystem())))->build();
 
             $app->router($router);
 
@@ -68,20 +87,28 @@ abstract class KnotShellRouterModule extends ComponentModule
         }
     }
 
-    /**
-     * Get dispatcher
-     *
-     * @param ApplicationInterface $app
-     *
-     * @return callback|Closure|ShellDispatcherInterface
-     */
-    public abstract function getDispatcher(ApplicationInterface $app);
-
 
     /**
      * Get routing rule
      *
+     * @param FileSystemInterface $fs
+     *
      * @return array
+     *
+     * @throws RoutingRuleConfigNotFoundException
+     * @throws RoutingRuleConfigFileFormatException
      */
-    public abstract function getRoutingRule() : array;
+    private function getRoutingRule(FileSystemInterface $fs) : array
+    {
+        $routing_rule_config_file = $fs->getFile(Dir::CONFIG, self::ROUTING_RULE_CONFIG_FILE);
+        if (!is_file($routing_rule_config_file)){
+            throw new RoutingRuleConfigNotFoundException($routing_rule_config_file);
+        }
+        /** @noinspection PhpIncludeInspection */
+        $ret = require($routing_rule_config_file);
+        if (!is_array($ret)){
+            throw new RoutingRuleConfigFileFormatException($routing_rule_config_file);
+        }
+        return $ret;
+    }
 }

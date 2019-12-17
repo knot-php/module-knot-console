@@ -8,6 +8,7 @@ use KnotPhp\Module\KnotConsole\KnotShellResponderModule;
 use KnotPhp\Module\KnotConsole\KnotShellRequestModule;
 use KnotPhp\Module\KnotConsole\KnotShellResponseModule;
 use KnotPhp\Module\KnotConsole\KnotShellRouterModule;
+use KnotPhp\Module\KnotConsole\KnotShellRoutingMiddlewareModule;
 
 class KnotConsolePackage implements PackageInterface
 {
@@ -23,6 +24,7 @@ class KnotConsolePackage implements PackageInterface
             KnotShellResponseModule::class,
             KnotShellResponderModule::class,
             KnotShellRouterModule::class,
+            KnotShellRoutingMiddlewareModule::class,
         ];
     }
 }
