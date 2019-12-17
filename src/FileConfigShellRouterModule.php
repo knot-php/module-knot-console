@@ -21,7 +21,7 @@ use KnotLib\Console\Router\ShellRouter;
 use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigFileFormatException;
 use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigNotFoundException;
 
-final class KnotShellRouterModule extends ComponentModule
+final class FileConfigShellRouterModule extends ComponentModule
 {
     const ROUTING_RULE_CONFIG_FILE = 'route.config.php';
 

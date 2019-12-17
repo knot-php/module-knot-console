@@ -5,15 +5,15 @@ namespace KnotPhp\Module\KnotConsole;
 
 use Throwable;
 
+use KnotLib\Console\Responder\ShellResponder;
 use KnotLib\Kernel\Kernel\ApplicationInterface;
 use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
 use KnotLib\Kernel\Module\Components;
-use KnotLib\Console\Request\ShellRequest;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
 
-class KnotShellRequestModule extends ComponentModule
+class ShellResponderModule extends ComponentModule
 {
     /**
      * Declare dependent on components
@@ -22,9 +22,7 @@ class KnotShellRequestModule extends ComponentModule
      */
     public static function requiredComponents() : array
     {
-        return [
-            Components::EVENTSTREAM,
-        ];
+        return [];
     }
 
     /**
@@ -34,7 +32,7 @@ class KnotShellRequestModule extends ComponentModule
      */
     public static function declareComponentType() : string
     {
-        return Components::REQUEST;
+        return Components::RESPONDER;
     }
 
     /**
@@ -47,11 +45,11 @@ class KnotShellRequestModule extends ComponentModule
     public function install(ApplicationInterface $app)
     {
         try{
-            $request = new ShellRequest($GLOBALS['argv'] ?? []);
-            $app->request($request);
+            $responder = new ShellResponder();
+            $app->responder($responder);
 
             // fire event
-            $app->eventstream()->channel(Channels::SYSTEM)->push(Events::REQUEST_ATTACHED, $request);
+            $app->eventstream()->channel(Channels::SYSTEM)->push(Events::RESPONDER_ATTACHED, $responder);
         }
         catch(Throwable $e)
         {

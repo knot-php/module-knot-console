@@ -13,7 +13,7 @@ use KnotLib\Kernel\Module\Components;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
 
-class KnotShellResponseModule extends ComponentModule
+class ShellResponseModule extends ComponentModule
 {
     /**
      * Declare dependent on components

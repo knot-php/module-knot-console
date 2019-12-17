@@ -9,11 +9,11 @@ use KnotLib\Kernel\Kernel\ApplicationInterface;
 use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
 use KnotLib\Kernel\Module\Components;
+use KnotLib\Console\Request\ShellRequest;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
-use KnotLib\Console\Middleware\ShellRoutingMiddleware;
 
-final class KnotShellRoutingMiddlewareModule extends ComponentModule
+class ShellRequestModule extends ComponentModule
 {
     /**
      * Declare dependent on components
@@ -24,7 +24,6 @@ final class KnotShellRoutingMiddlewareModule extends ComponentModule
     {
         return [
             Components::EVENTSTREAM,
-            Components::PIPELINE,
         ];
     }
 
@@ -35,7 +34,7 @@ final class KnotShellRoutingMiddlewareModule extends ComponentModule
      */
     public static function declareComponentType() : string
     {
-        return Components::MODULE;
+        return Components::REQUEST;
     }
 
     /**
@@ -43,16 +42,16 @@ final class KnotShellRoutingMiddlewareModule extends ComponentModule
      *
      * @param ApplicationInterface $app
      *
-     * @throws
+     * @throws ModuleInstallationException
      */
     public function install(ApplicationInterface $app)
     {
         try{
-            $middleware = new ShellRoutingMiddleware($app);
-            $app->pipeline()->push($middleware);
+            $request = new ShellRequest($GLOBALS['argv'] ?? []);
+            $app->request($request);
 
             // fire event
-            $app->eventstream()->channel(Channels::SYSTEM)->push(Events::PIPELINE_MIDDLEWARE_PUSHED, $middleware);
+            $app->eventstream()->channel(Channels::SYSTEM)->push(Events::REQUEST_ATTACHED, $request);
         }
         catch(Throwable $e)
         {

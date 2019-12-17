@@ -5,15 +5,15 @@ namespace KnotPhp\Module\KnotConsole;
 
 use Throwable;
 
-use KnotLib\Console\Responder\ShellResponder;
 use KnotLib\Kernel\Kernel\ApplicationInterface;
 use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
 use KnotLib\Kernel\Module\Components;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
+use KnotLib\Console\Middleware\ShellRoutingMiddleware;
 
-class KnotShellResponderModule extends ComponentModule
+final class ShellRoutingMiddlewareModule extends ComponentModule
 {
     /**
      * Declare dependent on components
@@ -22,7 +22,10 @@ class KnotShellResponderModule extends ComponentModule
      */
     public static function requiredComponents() : array
     {
-        return [];
+        return [
+            Components::EVENTSTREAM,
+            Components::PIPELINE,
+        ];
     }
 
     /**
@@ -32,7 +35,7 @@ class KnotShellResponderModule extends ComponentModule
      */
     public static function declareComponentType() : string
     {
-        return Components::RESPONDER;
+        return Components::MODULE;
     }
 
     /**
@@ -40,16 +43,16 @@ class KnotShellResponderModule extends ComponentModule
      *
      * @param ApplicationInterface $app
      *
-     * @throws ModuleInstallationException
+     * @throws
      */
     public function install(ApplicationInterface $app)
     {
         try{
-            $responder = new ShellResponder();
-            $app->responder($responder);
+            $middleware = new ShellRoutingMiddleware($app);
+            $app->pipeline()->push($middleware);
 
             // fire event
-            $app->eventstream()->channel(Channels::SYSTEM)->push(Events::RESPONDER_ATTACHED, $responder);
+            $app->eventstream()->channel(Channels::SYSTEM)->push(Events::PIPELINE_MIDDLEWARE_PUSHED, $middleware);
         }
         catch(Throwable $e)
         {
