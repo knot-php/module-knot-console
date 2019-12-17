@@ -11,7 +11,6 @@ use KnotLib\Kernel\Exception\ModuleInstallationException;
 use KnotLib\Kernel\Module\Components;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
-use KnotLib\Console\Middleware\ShellRoutingMiddleware;
 use KnotLib\Console\Router\Builder\PhpArrayShellRouterBuilder;
 use KnotLib\Console\Router\ShellDispatcherInterface;
 use KnotLib\Console\Router\ShellRouter;
@@ -73,8 +72,6 @@ final class ArrayConfigShellRouterModule extends ComponentModule
             (new PhpArrayShellRouterBuilder($router, $this->routing_rule))->build();
 
             $app->router($router);
-
-            $app->pipeline()->push(new ShellRoutingMiddleware($app));
 
             // fire event
             $app->eventstream()->channel(Channels::SYSTEM)->push(Events::ROUTER_ATTACHED, $router);
