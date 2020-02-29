@@ -6,25 +6,35 @@ namespace KnotPhp\Module\KnotConsole;
 use Throwable;
 
 use KnotLib\Kernel\Kernel\ApplicationInterface;
-use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
-use KnotLib\Kernel\Module\Components;
+use KnotLib\Kernel\Module\ComponentTypes;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
 use KnotLib\Console\Middleware\ShellRoutingMiddleware;
+use KnotLib\Kernel\Module\ModuleInterface;
 
-final class ShellRoutingMiddlewareModule extends ComponentModule
+final class ShellRoutingMiddlewareModule implements ModuleInterface
 {
+    /**
+     * Declare dependency on another modules
+     *
+     * @return array
+     */
+    public static function requiredModules() : array
+    {
+        return [];
+    }
+
     /**
      * Declare dependent on components
      *
      * @return array
      */
-    public static function requiredComponents() : array
+    public static function requiredComponentTypes() : array
     {
         return [
-            Components::EVENTSTREAM,
-            Components::PIPELINE,
+            ComponentTypes::EVENTSTREAM,
+            ComponentTypes::PIPELINE,
         ];
     }
 
@@ -35,7 +45,7 @@ final class ShellRoutingMiddlewareModule extends ComponentModule
      */
     public static function declareComponentType() : string
     {
-        return Components::MODULE;
+        return ComponentTypes::MIDDLEWARE;
     }
 
     /**

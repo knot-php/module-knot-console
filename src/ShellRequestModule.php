@@ -6,24 +6,34 @@ namespace KnotPhp\Module\KnotConsole;
 use Throwable;
 
 use KnotLib\Kernel\Kernel\ApplicationInterface;
-use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
-use KnotLib\Kernel\Module\Components;
+use KnotLib\Kernel\Module\ComponentTypes;
 use KnotLib\Console\Request\ShellRequest;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
+use KnotLib\Kernel\Module\ModuleInterface;
 
-class ShellRequestModule extends ComponentModule
+class ShellRequestModule implements ModuleInterface
 {
+    /**
+     * Declare dependency on another modules
+     *
+     * @return array
+     */
+    public static function requiredModules() : array
+    {
+        return [];
+    }
+
     /**
      * Declare dependent on components
      *
      * @return array
      */
-    public static function requiredComponents() : array
+    public static function requiredComponentTypes() : array
     {
         return [
-            Components::EVENTSTREAM,
+            ComponentTypes::EVENTSTREAM,
         ];
     }
 
@@ -34,7 +44,7 @@ class ShellRequestModule extends ComponentModule
      */
     public static function declareComponentType() : string
     {
-        return Components::REQUEST;
+        return ComponentTypes::REQUEST;
     }
 
     /**

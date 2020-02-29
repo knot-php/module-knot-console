@@ -5,12 +5,12 @@ namespace KnotPhp\Module\KnotConsole;
 
 use Throwable;
 
+use KnotLib\Kernel\Module\ComponentTypes;
+use KnotLib\Kernel\Module\ModuleInterface;
 use KnotLib\Kernel\FileSystem\Dir;
 use KnotLib\Kernel\FileSystem\FileSystemInterface;
 use KnotLib\Kernel\Kernel\ApplicationInterface;
-use KnotLib\Kernel\Module\ComponentModule;
 use KnotLib\Kernel\Exception\ModuleInstallationException;
-use KnotLib\Kernel\Module\Components;
 use KnotLib\Kernel\EventStream\Channels;
 use KnotLib\Kernel\EventStream\Events;
 use KnotLib\Console\Router\Builder\PhpArrayShellRouterBuilder;
@@ -20,7 +20,7 @@ use KnotLib\Console\Router\ShellRouter;
 use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigFileFormatException;
 use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigNotFoundException;
 
-final class FileConfigShellRouterModule extends ComponentModule
+final class FileConfigShellRouterModule implements ModuleInterface
 {
     const ROUTING_RULE_CONFIG_FILE = 'route.config.php';
 
@@ -38,15 +38,25 @@ final class FileConfigShellRouterModule extends ComponentModule
     }
 
     /**
+     * Declare dependency on another modules
+     *
+     * @return array
+     */
+    public static function requiredModules() : array
+    {
+        return [];
+    }
+
+    /**
      * Declare dependent on components
      *
      * @return array
      */
-    public static function requiredComponents() : array
+    public static function requiredComponentTypes() : array
     {
         return [
-            Components::EVENTSTREAM,
-            Components::PIPELINE,
+            ComponentTypes::EVENTSTREAM,
+            ComponentTypes::PIPELINE,
         ];
     }
 
@@ -57,7 +67,7 @@ final class FileConfigShellRouterModule extends ComponentModule
      */
     public static function declareComponentType() : string
     {
-        return Components::ROUTER;
+        return ComponentTypes::ROUTER;
     }
 
     /**
