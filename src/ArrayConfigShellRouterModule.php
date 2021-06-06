@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotPhp\Module\KnotConsole;
+namespace knotphp\module\knotconsole;
 
 use Throwable;
 
-use KnotLib\Kernel\Kernel\ApplicationInterface;
-use KnotLib\Kernel\Exception\ModuleInstallationException;
-use KnotLib\Kernel\Module\ComponentTypes;
-use KnotLib\Kernel\EventStream\Channels;
-use KnotLib\Kernel\EventStream\Events;
-use KnotLib\Console\Router\Builder\PhpArrayShellRouterBuilder;
-use KnotLib\Console\Router\ShellDispatcherInterface;
-use KnotLib\Console\Router\ShellRouter;
-use KnotLib\Kernel\Module\ModuleInterface;
+use knotlib\kernel\kernel\ApplicationInterface;
+use knotlib\kernel\exception\ModuleInstallationException;
+use knotlib\kernel\module\ComponentTypes;
+use knotlib\kernel\eventstream\Channels;
+use knotlib\kernel\eventstream\Events;
+use knotlib\console\router\builder\PhpArrayShellRouterBuilder;
+use knotlib\console\router\ShellDispatcherInterface;
+use knotlib\console\router\ShellRouter;
+use knotlib\kernel\module\ModuleInterface;
 
 final class ArrayConfigShellRouterModule implements ModuleInterface
 {
@@ -27,7 +27,7 @@ final class ArrayConfigShellRouterModule implements ModuleInterface
      * KnotShellRouterModule constructor.
      *
      * @param ShellDispatcherInterface|null $dispatcher
-     * @param array $routing_rule
+     * @param array|null $routing_rule
      */
     public function __construct(ShellDispatcherInterface $dispatcher = null, array $routing_rule = null)
     {
@@ -86,9 +86,9 @@ final class ArrayConfigShellRouterModule implements ModuleInterface
             // fire event
             $app->eventstream()->channel(Channels::SYSTEM)->push(Events::ROUTER_ATTACHED, $router);
         }
-        catch(Throwable $e)
+        catch(Throwable $ex)
         {
-            throw new ModuleInstallationException(self::class, $e->getMessage(), 0, $e);
+            throw new ModuleInstallationException(self::class, $ex->getMessage(), $ex);
         }
     }
 }

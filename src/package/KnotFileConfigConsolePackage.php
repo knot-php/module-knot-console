@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotPhp\Module\KnotConsole\Package;
+namespace knotphp\module\knotconsole\package;
 
-use KnotLib\Kernel\Module\PackageInterface;
-use KnotPhp\Module\KnotConsole\ArrayConfigShellRouterModule;
+use knotlib\kernel\module\PackageInterface;
+use knotphp\module\knotconsole\FileConfigShellRouterModule;
 
-class KnotArrayConfigConsolePackage implements PackageInterface
+class KnotFileConfigConsolePackage implements PackageInterface
 {
     /**
      * Get package module list
@@ -18,7 +18,7 @@ class KnotArrayConfigConsolePackage implements PackageInterface
         return array_merge(
             KnotDefaultConsolePackage::getModuleList(),
             [
-                ArrayConfigShellRouterModule::class,
+                FileConfigShellRouterModule::class,
             ]);
     }
 }

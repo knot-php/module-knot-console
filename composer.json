@@ -12,23 +12,22 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.2",
     "knot-lib/kernel": "~0.1",
     "knot-lib/console": "~0.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.3.0",
+    "phpunit/phpunit": "^8.5.15",
     "php-coveralls/php-coveralls": "^2.0"
   },
   "autoload": {
     "psr-4": {
-      "KnotPhp\\Module\\KnotConsole\\": "src/"
+      "knotphp\\module\\knotconsole\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "KnotPhp\\Module\\KnotConsole\\Test\\": "test/include/",
-      "KnotPhp\\Module\\KnotConsole\\Demo\\": "demo/include/"
+      "knotphp\\module\\knotconsole\\test\\": "test/"
     }
   }
 }

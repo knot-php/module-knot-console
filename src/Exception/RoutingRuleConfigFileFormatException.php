@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotPhp\Module\KnotConsole\Exception;
+namespace knotphp\module\knotconsole\Exception;
 
 use Throwable;
 

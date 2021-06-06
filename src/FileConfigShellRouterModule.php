@@ -1,24 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotPhp\Module\KnotConsole;
+namespace knotphp\module\knotconsole;
 
 use Throwable;
 
-use KnotLib\Kernel\Module\ComponentTypes;
-use KnotLib\Kernel\Module\ModuleInterface;
-use KnotLib\Kernel\FileSystem\Dir;
-use KnotLib\Kernel\FileSystem\FileSystemInterface;
-use KnotLib\Kernel\Kernel\ApplicationInterface;
-use KnotLib\Kernel\Exception\ModuleInstallationException;
-use KnotLib\Kernel\EventStream\Channels;
-use KnotLib\Kernel\EventStream\Events;
-use KnotLib\Console\Router\Builder\PhpArrayShellRouterBuilder;
-use KnotLib\Console\Router\ShellDispatcherInterface;
-use KnotLib\Console\Router\ShellRouter;
+use knotlib\kernel\module\ComponentTypes;
+use knotlib\kernel\module\ModuleInterface;
+use knotlib\kernel\filesystem\Dir;
+use knotlib\kernel\filesystem\FileSystemInterface;
+use knotlib\kernel\kernel\ApplicationInterface;
+use knotlib\kernel\exception\ModuleInstallationException;
+use knotlib\kernel\eventstream\Channels;
+use knotlib\kernel\eventstream\Events;
+use knotlib\console\router\Builder\PhpArrayShellRouterBuilder;
+use knotlib\console\router\ShellDispatcherInterface;
+use knotlib\console\router\ShellRouter;
 
-use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigFileFormatException;
-use KnotPhp\Module\KnotConsole\Exception\RoutingRuleConfigNotFoundException;
+use knotphp\module\knotconsole\exception\RoutingRuleConfigFileFormatException;
+use knotphp\module\knotconsole\exception\RoutingRuleConfigNotFoundException;
 
 final class FileConfigShellRouterModule implements ModuleInterface
 {
@@ -88,9 +88,9 @@ final class FileConfigShellRouterModule implements ModuleInterface
             // fire event
             $app->eventstream()->channel(Channels::SYSTEM)->push(Events::ROUTER_ATTACHED, $router);
         }
-        catch(Throwable $e)
+        catch(Throwable $ex)
         {
-            throw new ModuleInstallationException(self::class, $e->getMessage(), 0, $e);
+            throw new ModuleInstallationException(self::class, $ex->getMessage(), $ex);
         }
     }
 

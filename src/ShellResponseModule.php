@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotPhp\Module\KnotConsole;
+namespace knotphp\module\knotconsole;
 
 use Throwable;
 
-use KnotLib\Console\Response\ShellResponse;
-use KnotLib\Kernel\Kernel\ApplicationInterface;
-use KnotLib\Kernel\Exception\ModuleInstallationException;
-use KnotLib\Kernel\Module\ComponentTypes;
-use KnotLib\Kernel\EventStream\Channels;
-use KnotLib\Kernel\EventStream\Events;
-use KnotLib\Kernel\Module\ModuleInterface;
+use knotlib\console\response\ShellResponse;
+use knotlib\kernel\kernel\ApplicationInterface;
+use knotlib\kernel\exception\ModuleInstallationException;
+use knotlib\kernel\module\ComponentTypes;
+use knotlib\kernel\eventstream\Channels;
+use knotlib\kernel\eventstream\Events;
+use knotlib\kernel\module\ModuleInterface;
 
 class ShellResponseModule implements ModuleInterface
 {
@@ -61,9 +61,9 @@ class ShellResponseModule implements ModuleInterface
             // fire event
             $app->eventstream()->channel(Channels::SYSTEM)->push(Events::RESPONSE_ATTACHED, $response);
         }
-        catch(Throwable $e)
+        catch(Throwable $ex)
         {
-            throw new ModuleInstallationException(self::class, $e->getMessage(), 0, $e);
+            throw new ModuleInstallationException(self::class, $ex->getMessage(), $ex);
         }
     }
 }

@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotPhp\Module\KnotConsole\Package;
+namespace knotphp\module\knotconsole\package;
 
-use KnotLib\Kernel\Module\PackageInterface;
-use KnotPhp\Module\KnotConsole\ShellResponderModule;
-use KnotPhp\Module\KnotConsole\ShellRequestModule;
-use KnotPhp\Module\KnotConsole\ShellResponseModule;
-use KnotPhp\Module\KnotConsole\FileConfigShellRouterModule;
-use KnotPhp\Module\KnotConsole\ShellRoutingMiddlewareModule;
+use knotlib\kernel\module\PackageInterface;
+use knotphp\module\knotconsole\ShellResponderModule;
+use knotphp\module\knotconsole\ShellRequestModule;
+use knotphp\module\knotconsole\ShellResponseModule;
+use knotphp\module\knotconsole\ShellRoutingMiddlewareModule;
 
 class KnotDefaultConsolePackage implements PackageInterface
 {
